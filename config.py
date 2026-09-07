@@ -24,15 +24,20 @@ COLOR_CREAM     = (248, 247, 244)   # warm white
 COLOR_DARK_GOLD = (140, 90, 0)
 COLOR_SHADOW    = (0, 0, 0)
 
-# Fonts — bundled in fonts/ for cross-platform compatibility
+# Fonts — bundled in fonts/ takes priority; fall back to system fonts
 _FONT_DIR = BASE_DIR / "fonts"
-if _platform.system() == "Windows" and not _FONT_DIR.exists():
-    FONT_PATH_MINCHO       = "C:/Windows/Fonts/yumindb.ttf"
-    FONT_PATH_MINCHO_LIGHT = "C:/Windows/Fonts/yumin.ttf"
-    FONT_PATH_LATIN        = "C:/Windows/Fonts/timesbd.ttf"
-    FONT_PATH_LATIN_REGULAR= "C:/Windows/Fonts/times.ttf"
+if (_FONT_DIR / "yumindb.ttf").exists():
+    FONT_PATH_MINCHO        = str(_FONT_DIR / "yumindb.ttf")
+    FONT_PATH_MINCHO_LIGHT  = str(_FONT_DIR / "yumin.ttf")
+    FONT_PATH_LATIN         = str(_FONT_DIR / "timesbd.ttf") if (_FONT_DIR / "timesbd.ttf").exists() else str(_FONT_DIR / "yumindb.ttf")
+    FONT_PATH_LATIN_REGULAR = str(_FONT_DIR / "times.ttf") if (_FONT_DIR / "times.ttf").exists() else str(_FONT_DIR / "yumin.ttf")
+elif _platform.system() == "Windows":
+    FONT_PATH_MINCHO        = "C:/Windows/Fonts/yumindb.ttf"
+    FONT_PATH_MINCHO_LIGHT  = "C:/Windows/Fonts/yumin.ttf"
+    FONT_PATH_LATIN         = "C:/Windows/Fonts/timesbd.ttf"
+    FONT_PATH_LATIN_REGULAR = "C:/Windows/Fonts/times.ttf"
 else:
-    # Linux (GitHub Actions) — use IPA ex Mincho installed via apt
+    # Linux fallback (apt-installed IPA font)
     FONT_PATH_MINCHO        = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
     FONT_PATH_MINCHO_LIGHT  = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
     FONT_PATH_LATIN         = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
