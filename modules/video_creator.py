@@ -142,16 +142,19 @@ def _word_clip(scene: dict, dur: float) -> VideoClip:
 
     def frame(t):
         img  = Image.new("RGB", (W, H), config.COLOR_BG)
-        draw = ImageDraw.Draw(img)
         fade = min(t / 0.8, 1.0)
 
-        # Accent glow rings (emerald green)
-        for r in range(6, 0, -1):
-            v = int(20 * r * fade // 6)
-            pad = r * 55
-            draw.ellipse([(W//2 - 240 - pad, H//2 - 240 - pad),
-                          (W//2 + 240 + pad, H//2 + 240 + pad)],
-                         fill=(0, v, int(v * 0.7)))
+        # Emerald glow rings — alpha composited so they don't darken the bg
+        glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        gd   = ImageDraw.Draw(glow)
+        for r_step in range(8, 0, -1):
+            a   = int(55 * (r_step / 8) * fade)
+            pad = r_step * 30
+            gd.ellipse([(W//2 - 180 - pad, H//2 - 180 - pad),
+                        (W//2 + 180 + pad, H//2 + 180 + pad)],
+                       fill=(16, 185, 129, a))
+        img  = Image.alpha_composite(img.convert("RGBA"), glow).convert("RGB")
+        draw = ImageDraw.Draw(img)
 
         gold  = tuple(int(c * fade) for c in config.COLOR_GOLD)
         cream = tuple(int(c * fade) for c in config.COLOR_CREAM)

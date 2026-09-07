@@ -32,10 +32,11 @@ if _platform.system() == "Windows" and not _FONT_DIR.exists():
     FONT_PATH_LATIN        = "C:/Windows/Fonts/timesbd.ttf"
     FONT_PATH_LATIN_REGULAR= "C:/Windows/Fonts/times.ttf"
 else:
-    FONT_PATH_MINCHO       = str(_FONT_DIR / "yumindb.ttf")
-    FONT_PATH_MINCHO_LIGHT = str(_FONT_DIR / "yumin.ttf")
-    FONT_PATH_LATIN        = str(_FONT_DIR / "timesbd.ttf")
-    FONT_PATH_LATIN_REGULAR= str(_FONT_DIR / "times.ttf")
+    # Linux (GitHub Actions) — use IPA ex Mincho installed via apt
+    FONT_PATH_MINCHO        = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
+    FONT_PATH_MINCHO_LIGHT  = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
+    FONT_PATH_LATIN         = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
+    FONT_PATH_LATIN_REGULAR = "/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf"
 
 # Video settings (Shorts: vertical 1080x1920)
 VIDEO_WIDTH   = 1080
