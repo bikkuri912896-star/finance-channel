@@ -25,10 +25,12 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y ffmpeg fonts-ipaexfont
+          sudo apt-get install -y ffmpeg fonts-ipafont-mincho
           mkdir -p fonts
-          cp /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf fonts/yumindb.ttf
-          cp /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.otf fonts/yumin.ttf
+          FONT=$(find /usr/share/fonts -name "ipam.otf" 2>/dev/null | head -1)
+          echo "Found font: $FONT"
+          cp "$FONT" fonts/yumindb.ttf
+          cp "$FONT" fonts/yumin.ttf
           echo "Font installed: $(ls -lh fonts/)"
 
       - name: Install Python dependencies
